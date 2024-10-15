@@ -43,3 +43,16 @@ generate-chat-api:
 # api/chat_v1/chat.proto прямой путь до протофайла
 
 # protoc-gen-go будет скачан в локальную папку bin 
+
+
+build:
+	GOOS=linux GOARCH=amd64 go build -o service_linux cmd/grpc_server/main.go
+
+copy-to-server:
+	scp -i /mnt/c/Users/titva/.ssh/id_ed25519_for_selectel service_linux root@176.114.77.183:
+
+docker-build-and-push:
+	docker buildx build --no-cache --platform linux/amd64 -t cr.selcloud.ru/chat-server/test-server:v0.0.1 .
+	docker login -u token -p CRgAAAAA7KqVel9s8FyxfwCa5JKAZ3Z9N8MeJbe1 cr.selcloud.ru/chat-server
+	docker push cr.selcloud.ru/chat-server/test-server:v0.0.1
+
