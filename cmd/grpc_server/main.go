@@ -33,17 +33,15 @@ func (s *server) Create(_ context.Context, req *desc.CreateChatRequest) (*desc.C
 func (s *server) Delete(_ context.Context, req *desc.DeleteChatRequest) (*emptypb.Empty, error) {
 	fmt.Printf("Received Delete chat request for chat ID: %d\n", req.Id)
 	log.Printf("Received Delete chat request for chat ID: %d\n", req.Id)
-    return &emptypb.Empty{}, nil
+	return &emptypb.Empty{}, nil
 }
 
 // SendMessage ...
-func (s *server) SendMessage(ctx context.Context, req *desc.SendMessageRequest) (*emptypb.Empty, error) {
-    fmt.Printf("Received message from %s: %s at %v\n", req.From, req.Text, req.Timestamp)
+func (s *server) SendMessage(_ context.Context, req *desc.SendMessageRequest) (*emptypb.Empty, error) {
+	fmt.Printf("Received message from %s: %s at %v\n", req.From, req.Text, req.Timestamp)
 	log.Printf("Received message from %s: %s at %v\n", req.From, req.Text, req.Timestamp)
-    return &emptypb.Empty{}, nil
+	return &emptypb.Empty{}, nil
 }
-
-
 
 func main() {
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", grpcPort))
