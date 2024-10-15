@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package chat;
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/titoffon/chat-server/pkg/chat_v1;chat_v1"; //указывает то, какой пакет будет у сгенерированных файлов, pkg служит папкой для хранения кода, который мы хотим использовать в других проектах
+
+// Сервис для управления чатами
+service ChatService {
+    // Создание чата
+    rpc Create (CreateChatRequest) returns (CreateChatResponse);
+    
+    // Удаление чата
+    rpc Delete (DeleteChatRequest) returns (google.protobuf.Empty);
+    
+    // Отправка сообщения
+    rpc SendMessage (SendMessageRequest) returns (google.protobuf.Empty);
+}
+
+// Запрос для создания чата
+message CreateChatRequest {
+//repeated это слайс
+    repeated string usernames = 1;
+}
+
+// Ответ при создании чата
+message CreateChatResponse {
+    int64 id = 1;
+}
+
+// Запрос для удаления чата
+message DeleteChatRequest {
+    int64 id = 1;
+}
+
+// Запрос для отправки сообщения
+message SendMessageRequest {
+    string from = 1;
+    string text = 2;
+    google.protobuf.Timestamp timestamp = 3;
+}
