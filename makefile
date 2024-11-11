@@ -52,7 +52,7 @@ copy-to-server:
 	scp -i /mnt/c/Users/titva/.ssh/id_ed25519_consoleChat service_linux root@176.114.67.116:
 
 docker-build-and-push:
-	docker buildx build --no-cache --platform linux/amd64 -t cr.selcloud.ru/chat-server/test-server:v0.0.1 .
-	docker login -u token -p CRgAAAAA7KqVel9s8FyxfwCa5JKAZ3Z9N8MeJbe1 cr.selcloud.ru/chat-server
-	docker push cr.selcloud.ru/chat-server/test-server:v0.0.1
+	docker buildx build --no-cache --platform linux/amd64 -t cr.selcloud.ru/console-chat/test-server:v0.0.1 .
+	docker login -u token -p CRgAAAAAD0-mCrAcrfMthla4st4wvaaZi9XaBEc2 cr.selcloud.ru/console-chat
+	docker push cr.selcloud.ru/console-chat/test-server:v0.0.1
 
