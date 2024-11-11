@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"log"
 	"net"
@@ -9,16 +8,18 @@ import (
 	//"github.com/brianvoe/gofakeit"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
-	"google.golang.org/protobuf/types/known/emptypb"
 
 	//"google.golang.org/protobuf/types/known/timestamppb"
 
+	"github.com/titoffon/chat-server/internal/config"
+	"github.com/titoffon/chat-server/internal/server"
+	"github.com/titoffon/chat-server/internal/storage"
 	desc "github.com/titoffon/chat-server/pkg/chat_v1"
 )
 
 const grpcPort = 50051
 
-type server struct {
+/*type server struct {
 	desc.UnimplementedChatServiceServer
 }
 
@@ -41,9 +42,25 @@ func (s *server) SendMessage(_ context.Context, req *desc.SendMessageRequest) (*
 	fmt.Printf("Received message from %s: %s at %v\n", req.From, req.Text, req.Timestamp)
 	log.Printf("Received message from %s: %s at %v\n", req.From, req.Text, req.Timestamp)
 	return &emptypb.Empty{}, nil
-}
+}*/
 
 func main() {
+
+	cfg, err := config.LoadConfig()
+	if err != nil {
+		log.Fatalf("failed to load config: %v", err)
+	}
+
+	db, err := storage.NewDB(cfg)
+	if err != nil {
+		log.Fatalf("failed to connect to database: %v", err)
+	}
+
+	//Создаём экземпляр сервера
+	srv := server.NewChatServiceServer(db)
+
+
+
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", grpcPort))
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
@@ -51,7 +68,7 @@ func main() {
 
 	s := grpc.NewServer()                        // создаём объект нового сервера
 	reflection.Register(s)                       // включаем возможность сервера выдавать информацию о себе
-	desc.RegisterChatServiceServer(s, &server{}) //второй параметр это структура, которая имплементировала API
+	desc.RegisterChatServiceServer(s, srv)
 
 	log.Printf("server listening at %v", lis.Addr())
 
