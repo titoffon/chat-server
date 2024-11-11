@@ -49,7 +49,7 @@ build:
 	GOOS=linux GOARCH=amd64 go build -o service_linux cmd/grpc_server/main.go
 
 copy-to-server:
-	scp -i /mnt/c/Users/titva/.ssh/id_ed25519_for_selectel service_linux root@176.114.77.183:
+	scp -i /mnt/c/Users/titva/.ssh/id_ed25519_consoleChat service_linux root@176.114.67.116:
 
 docker-build-and-push:
 	docker buildx build --no-cache --platform linux/amd64 -t cr.selcloud.ru/chat-server/test-server:v0.0.1 .

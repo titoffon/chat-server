@@ -1,0 +1,6 @@
+database:
+  host: localhost
+  port: 54322
+  user: chat-server-user
+  password: chat-server-password
+  dbname: chat-server
